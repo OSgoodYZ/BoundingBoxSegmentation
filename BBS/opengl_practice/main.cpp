@@ -40,13 +40,44 @@ glm::vec3 Up = glm::vec3(0, 1, 0), Right, viewDir;
 
 void  keyboard(unsigned char key, int x, int y)
 {
-
+	double interval = 0.0;
+	int k = 0;
+	int numOfBox = 4;
 	switch (key) {
-	case 'r':
-	
+	case 's':
+		
+		cout << "구성하고 싶은 바운딩 박스의 갯수를 입력하세요	" << endl;
+		cin >> numOfBox ;
+		BBS.MakeSegement(numOfBox);
+
 		break;
 
 	case 'g':
+		//Expand testing
+		BBS.Expand2LargeBB();
+
+		interval = (BBS.MaxY - BBS.MinY) / BBS.NumOfBoxes;
+
+
+		for (int i = 1; i < BBS.NumOfBoxes + 1; i++)
+		{
+			
+			for (int j = k; j < cloth.pos.size(); j++)
+			{
+				if (cloth.pos[j].x >= 0)			cloth.pos[j].x *= (BBS.MaxX / BBS.Segments[i - 1].MaxX);
+				else cloth.pos[j].x *= (BBS.MinX / BBS.Segments[i - 1].MinX);
+
+
+				if (cloth.pos[j].y > BBS.MinY + interval * i)
+				{
+
+					k = j + 1;
+					break;
+
+				}
+
+			}
+		}
 
 		break;
 
@@ -56,7 +87,7 @@ void  keyboard(unsigned char key, int x, int y)
 		break;
 
 	default:
-		cout << "구성하고 싶은 바운딩 박스의 갯수를 입력하세요	" << endl;
+		BoundingBoxS BBS(cloth);
 		break;
 	}
 
@@ -103,7 +134,7 @@ void OnMouseMove(int x, int y)
 void InitGL() { 
 
 	glEnable(GL_DEPTH_TEST);
-	cout << "구성하고 싶은 바운딩 박스의 갯수를 입력하세요	" << endl;
+	cout << "s 를 눌러 bounding box를 나룰 수 있습니다.	" << endl;
 	
 }
 
@@ -235,7 +266,7 @@ void main(int argc, char** argv) {
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
 	glutInitWindowSize(width, height);
 	glutCreateWindow("BBS PROJECTE");
-	BBS.MakeSegement(4);
+	BBS.MakeSegement(40);
 
 	glutDisplayFunc(OnRender);
 	glutReshapeFunc(OnReshape);

@@ -18,15 +18,17 @@ struct BBCompo
 	double MinX = VeryLarge;
 	double MaxY = VerySmall;
 	double MinY = VeryLarge;
+	int ControlPoint = 0;
 };
 
 class BoundingBoxS
 {
 public:
-	double MaxX = 0;
-	double MinX = 0;
-	double MaxY = 0;
-	double MinY = 0;
+	double MaxX = VerySmall;
+	double MinX = VeryLarge;
+	double MaxY = VerySmall;
+	double MinY = VeryLarge;
+	int NumOfBoxes = 1;
 
 	vector<Vector3d> OrderedYvalue;
 	vector<BBCompo> Segments;
@@ -36,7 +38,7 @@ public:
 	~BoundingBoxS();
 
 	void MakeSegement(double NumOfBox);
-
+	void Expand2LargeBB();
 private:
 
 
@@ -44,19 +46,19 @@ private:
 
 BoundingBoxS::BoundingBoxS()
 {
-	MaxX = 0;
-	MinX = 0;
-	MaxY = 0;
-	MinY = 0;
+	MaxX = VerySmall;
+	MinX = VeryLarge;
+	MaxY = VerySmall;
+	MinY = VeryLarge;
 
 
 }
 BoundingBoxS::BoundingBoxS(ClothSimulator cloth)
 {
-	MaxX = 0;
-	MinX = 0;
-	MaxY = 0;
-	MinY = 0;
+	MaxX = VerySmall;
+	MinX = VeryLarge;
+	MaxY = VerySmall;
+	MinY = VeryLarge;
 	
 
 	//constructe max,min bounding box
@@ -79,6 +81,7 @@ BoundingBoxS::BoundingBoxS(ClothSimulator cloth)
 }
 void BoundingBoxS::MakeSegement(double NumOfBox)
 {
+	NumOfBoxes = NumOfBox;
 	double interval = 0.0;
 	interval = (MaxY - MinY) / NumOfBox;
 	BBCompo tmp;
@@ -99,20 +102,46 @@ void BoundingBoxS::MakeSegement(double NumOfBox)
 
 			if (OrderedYvalue[j].y > MinY + interval * i)
 			{
-				
 				k = j+1;
+				tmp.ControlPoint = k-1;
 				cout << k << endl;
 				break;
 				
 			}
-				
+			tmp.ControlPoint = j;
 		}
 		Segments.push_back(tmp);
 	}
 
 
 }
+void BoundingBoxS::Expand2LargeBB()
+{
+	double interval = 0.0;
+	interval = (MaxY - MinY) / NumOfBoxes;
 
+	int k = 0;
+	for (int i = 1; i < NumOfBoxes + 1; i++)
+	{
+
+		for (int j = k; j < OrderedYvalue.size(); j++)
+		{
+			if (OrderedYvalue[j].x >= 0)			OrderedYvalue[j].x += (MaxX - Segments[i - 1].MaxX);
+			else OrderedYvalue[j].x += (MinX - Segments[i - 1].MinX);
+
+
+			if (OrderedYvalue[j].y > MinY + interval * i)
+			{
+
+				k = j + 1;
+				cout << k << endl;
+				break;
+
+			}
+
+		}
+	}
+}
 BoundingBoxS::~BoundingBoxS()
 {
 }
