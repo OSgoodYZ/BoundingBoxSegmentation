@@ -162,6 +162,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\BoundingBox.h" />
     <ClInclude Include="include\ClothSimulator.h" />
     <ClInclude Include="include\Object.h" />
     <ClInclude Include="include\TriangularMesh.h" />
