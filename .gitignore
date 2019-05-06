@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+BBS/.vs/
+BBS/opengl_practice/Debug/
+BBS/opengl_practice/Release/

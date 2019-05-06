@@ -1,0 +1,26 @@
+#DCS 5.0 PANEL MTL 
+
+newmtl Panel_73108_outter_Mtl
+illum 4
+Kd 0.901961 0.901961 0.901961
+Ka 0 0 0
+Tf 1 1 1
+Ni 1
+Ks 0 0 0
+Ns 0
+newmtl Panel_73108_inner_Mtl
+illum 4
+Kd 0.901961 0.901961 0.901961
+Ka 0 0 0
+Tf 1 1 1
+Ni 1
+Ks 0 0 0
+Ns 0
+newmtl Panel_73108_fringe_Mtl
+illum 4
+Kd 0.901961 0.901961 0.901961
+Ka 0 0 0
+Tf 1 1 1
+Ni 1
+Ks 0 0 0
+Ns 0
